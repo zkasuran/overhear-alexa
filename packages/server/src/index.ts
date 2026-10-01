@@ -1,2 +1,3 @@
-// Placeholder until M1 WP-3 fills in the Hono app, /mcp transport, and middleware.
-export const SERVER_PLACEHOLDER = true;
+// Public surface of @overhear/server. The runnable entry is main.ts (added at WP-3).
+export * from "./contracts.js";
+export { loadConfig, bannerLines, printBanner } from "./config.js";
