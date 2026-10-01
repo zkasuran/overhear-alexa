@@ -11,6 +11,7 @@
     "preview": "vite preview --port 5173",
     "typecheck": "tsc --noEmit -p tsconfig.json"
   },
-  "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {
+    "vite": "^7.1.5"
+  }
 }

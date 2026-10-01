@@ -12,7 +12,10 @@
     "start": "node dist/main.js"
   },
   "dependencies": {
-    "@overhear/core": "1.0.0"
+    "@overhear/core": "1.0.0",
+    "ws": "^8.18.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@types/ws": "^8.5.12"
+  }
 }

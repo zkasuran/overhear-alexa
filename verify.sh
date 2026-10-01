@@ -16,6 +16,7 @@ step "typecheck:web";  npm run --silent typecheck -w @overhear/sim-web
 step "lint";           npx eslint . --max-warnings 0
 step "unit+property";  npx vitest run --reporter=dot
 step "licences";       node scripts/check-licences.mjs
+step "intel";          node scripts/intel-gate.mjs
 step "audit";          npm audit --omit=dev --audit-level=high
 step "build";          npx tsc -b
 step "build:web";      npm run --silent build -w @overhear/sim-web

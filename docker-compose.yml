@@ -1,0 +1,68 @@
+# One command for a reviewer: `docker compose up`. It brings up the Overhear MCP server on
+# 127.0.0.1:8787 and the Alexa+ simulator on 127.0.0.1:5173, both in mock-model and local-store mode,
+# so nothing touches AWS and nothing spends. The server prints the bearer token once at start; present
+# it as `Authorization: Bearer <token>`. The simulator reaches the server with the same token. Data and
+# media live on tmpfs, so every run starts from a clean slate.
+#
+# Every request to the server still needs that bearer token (static-token auth), and the published
+# ports bind to 127.0.0.1 only, so the stack is not reachable from outside this host.
+
+name: overhear
+
+services:
+  overhear:
+    build: .
+    image: overhear:local
+    environment:
+      OVERHEAR_MODELS: mock
+      OVERHEAR_STORE: local
+      OVERHEAR_BIND_PUBLIC: "1" # bind 0.0.0.0 inside the container; the mapped port below is loopback only
+      OVERHEAR_PORT: "8787"
+      OVERHEAR_DATA_DIR: /data
+      OVERHEAR_MEDIA_DIR: /media
+      OVERHEAR_TOKENS_FILE: /run/overhear/tokens
+      OVERHEAR_BEARER_TOKEN: ${OVERHEAR_BEARER_TOKEN:-overhear-local-dev-6Qp2Rt9Wkz}
+    command:
+      - sh
+      - -lc
+      - |
+        mkdir -p /run/overhear
+        node -e 'const c=require("crypto"),f=require("fs");const t=process.env.OVERHEAR_BEARER_TOKEN;const d=c.createHash("sha256").update(t).digest("hex");f.writeFileSync(process.env.OVERHEAR_TOKENS_FILE,"local:"+d+"\n",{mode:0o600});console.log("\n==== Overhear bearer token ====\n  Authorization: Bearer "+t+"\n===============================\n");'
+        exec node packages/server/dist/main.js
+    ports:
+      - "127.0.0.1:8787:8787"
+    tmpfs:
+      - /data
+      - /media
+      - /run/overhear
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:8787/health').then((r)=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 20s
+
+  simulator:
+    build: .
+    image: overhear:local
+    depends_on:
+      overhear:
+        condition: service_healthy
+    environment:
+      OVERHEAR_SERVER_URL: http://overhear:8787/mcp
+      OVERHEAR_BEARER_TOKEN: ${OVERHEAR_BEARER_TOKEN:-overhear-local-dev-6Qp2Rt9Wkz}
+      OVERHEAR_SIM_PORT: "5173"
+    command:
+      - sh
+      - -lc
+      - |
+        node packages/sim-host/dist/main.js &
+        cd packages/sim-web
+        npm run build
+        exec npx vite preview --host 0.0.0.0 --port 5173 --strictPort
+    ports:
+      - "127.0.0.1:5173:5173"

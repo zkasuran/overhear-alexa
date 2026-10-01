@@ -20,7 +20,7 @@ const RULES = [
   ],
   ["private dirs", /(^|[^A-Za-z0-9_])(plan\/recon|plan\/0[0-9]|\.hq)([^A-Za-z0-9_]|$)/],
   ["prior-project lineage", /\b(zkasuran\/overhear|MiniMax|overhear-eight|vercel\.app)\b/i],
-  ["provenance phrasing", /\b(ported from|carried over from|derived from|adapted from)\b/i],
+  ["provenance phrasing", /\b(ported from|carried over from|adapted from)\b/i],
   ["build process", /\b(the brief|sub-?agent|fan[-\s]?out|agent swarm)\b/i],
   ["internal labels", /\b(WP-\d+|Q-\d+|D-\d+)\b/],
   ["spike / milestone", /\bat M[0-7]\b|\bmilestone M[0-7]\b|\b04-SPIKE\b|\bthe spike\b/i],
