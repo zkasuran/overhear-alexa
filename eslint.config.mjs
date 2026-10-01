@@ -43,6 +43,16 @@ export default tseslint.config(
     files: ["packages/sim-web/**/*.{ts,tsx}"],
     languageOptions: { globals: { ...globals.browser } },
   },
+  // Plain JS/MJS config and gate scripts run on Node and may log.
+  {
+    files: ["**/*.{js,mjs,cjs}"],
+    languageOptions: {
+      ecmaVersion: 2023,
+      sourceType: "module",
+      globals: { ...globals.node, fetch: "readonly", AbortSignal: "readonly" },
+    },
+    rules: { "no-console": "off" },
+  },
   // Scripts and tests may log and are not shipped as library code.
   {
     files: ["scripts/**/*.{ts,mts,mjs}", "**/*.test.ts", "**/test/**/*.ts"],

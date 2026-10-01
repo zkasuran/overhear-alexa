@@ -1,11 +1,9 @@
 // Prompt craft, provider-neutral. Each builder returns a system+user pair; the Bedrock adapter maps
 // it to Converse (system blocks + messages), the mock adapter keys fixtures off a hash of it.
-// Prompt-injection defence (S-5): the source and transcript are always wrapped in a delimited DATA
-// block with an explicit instruction that their contents are data, never instructions. The model is
-// told to emit ONLY one minified JSON object, which is then schema-validated by the caller.
-//
-// Design and the four-format sheet are carried over from zkasuran/overhear (MiniMax Week, 2026-08),
-// reworked from whole-episode generation to one-part-at-a-time so parts can render ahead of playback.
+// Prompt-injection defence (see SECURITY.md): the source and transcript are always wrapped in a
+// delimited DATA block with an explicit instruction that their contents are data, never instructions.
+// The model is told to emit ONLY one minified JSON object, which is then schema-validated by the caller.
+// Episodes are generated one part at a time so parts can render ahead of playback.
 
 import { FORMATS } from "./formats.js";
 import type { FormatId } from "./types.js";

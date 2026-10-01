@@ -1,0 +1,33 @@
+# NOTICE
+
+Overhear for Alexa+ is licensed under the Source-Available No-Derivatives Licence 1.0
+(`LicenseRef-zkasuran-SAND-1.0`, see LICENSE). Copyright (c) 2026 zkasuran.
+
+The `packages/durable-stores` workspace is extracted at M5 into a separate public package
+(`mcp-durable-stores`) under Apache-2.0; while in this tree it is marked Apache-2.0 in its own
+package.json and carries that licence on publication.
+
+## Carried over from prior work by the same author
+
+Parts of `packages/core` are carried over from zkasuran/overhear (MiniMax Week, 2026-08):
+the JSON extraction helper, the four-format sheet and the prompt design. Same author, no third-party
+grant involved. Each ported file names this in a header comment.
+
+## Third-party components (not redistributed; used under their own terms)
+
+Runtime dependencies, each used under its own licence as resolved in package-lock.json and verified by
+`scripts/check-licences.mjs`:
+
+- `@modelcontextprotocol/sdk` and `zod`, `zod-to-json-schema`
+- `hono`, `@hono/node-server`
+- `@aws-sdk/*` (AWS SDK for JavaScript v3)
+
+Development-only tooling (TypeScript, ESLint, Prettier, Vitest, fast-check and their dependencies) is
+not shipped in any published artifact.
+
+`ffmpeg` and `ffprobe` are invoked as external system binaries at runtime. They are not bundled or
+redistributed with this software; the operator provides them.
+
+Amazon Bedrock, Amazon Polly, Amazon Nova, Amazon S3 and Amazon DynamoDB are AWS services called at
+runtime under the AWS Service Terms. Their outputs and the terms that cover them are recorded in
+`DATA-SOURCES.md`.

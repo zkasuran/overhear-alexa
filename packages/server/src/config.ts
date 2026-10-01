@@ -9,8 +9,8 @@ function pick<T extends string>(v: string | undefined, allowed: readonly T[], df
   return v !== undefined && (allowed as readonly string[]).includes(v) ? (v as T) : dflt;
 }
 
-// Polly generative voice ids per format and speaker. Defaults are a best guess; the real generative
-// voices for the account are confirmed at S-0 (04-SPIKE) and can be overridden with env. Mock mode
+// Polly generative voice ids per format and speaker. Defaults are a reasonable starting set; the real
+// generative voices available on the account can be confirmed and overridden with env. Mock mode
 // ignores these entirely.
 const DEFAULT_VOICES: Record<FormatId, Record<Speaker, string>> = {
   explainer: { host: "Ruth", expert: "Matthew" },
@@ -51,8 +51,8 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
     storeMode,
     region: env.AWS_REGION ?? env.OVERHEAR_REGION ?? "us-east-1",
     bedrock: {
-      planModelId: env.OVERHEAR_PLAN_MODEL ?? "amazon.nova-lite-v1:0", // default pending S-1
-      scriptModelId: env.OVERHEAR_SCRIPT_MODEL ?? "amazon.nova-pro-v1:0", // default pending S-1
+      planModelId: env.OVERHEAR_PLAN_MODEL ?? "amazon.nova-lite-v1:0", // default; override with env
+      scriptModelId: env.OVERHEAR_SCRIPT_MODEL ?? "amazon.nova-pro-v1:0", // default; override with env
     },
     voices: voicesFromEnv(env),
     s3Bucket: env.OVERHEAR_S3_BUCKET ?? "",

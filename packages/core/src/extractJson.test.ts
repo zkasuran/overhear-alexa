@@ -34,7 +34,7 @@ test("extractJson: rejects pathologically deep nesting", () => {
 });
 
 // Property: on ANY string input, extractJson either returns a value or throws an Error.
-// It must never throw a non-Error, hang, or leak a raw SyntaxError.
+// It must never throw a non-Error, hang or leak a raw SyntaxError.
 test("extractJson: total over random bytes (never throws non-Error)", () => {
   fc.assert(
     fc.property(fc.string(), (s) => {
@@ -56,7 +56,7 @@ test("extractJson: recovers an embedded object regardless of surrounding noise",
       fc.string({ unit: "grapheme" }),
       fc.record({ k: fc.integer(), v: fc.boolean() }),
       (pre, post, obj) => {
-        // Keep the prefix free of braces so the first "{" is the object's, and strip
+        // Keep the prefix free of braces so the first "{" is the object's and strip
         // backticks from both sides so a stray fence cannot change which body is scanned.
         const clean = pre.replace(/[{}`]/g, "");
         const tail = post.replace(/[`]/g, "");

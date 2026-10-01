@@ -1,7 +1,7 @@
-// Ported from zkasuran/overhear (MiniMax Week, 2026-08) lib/episode.ts — added a brace-depth
-// ceiling (MAX_JSON_BRACE_DEPTH) so a hostile input cannot drive deep recursion in JSON.parse,
-// and widened the contract: this function throws only Error (never a raw SyntaxError leak) on any
-// input, which the property test in extractJson.test.ts asserts over random bytes.
+// Hardened JSON extraction from model output. A brace-depth ceiling (MAX_JSON_BRACE_DEPTH) stops a
+// hostile input from driving deep recursion in JSON.parse. The contract is total: this function
+// throws only Error (never a raw SyntaxError leak) on any input, which the property test in
+// extractJson.test.ts asserts over random bytes.
 
 import { MAX_JSON_BRACE_DEPTH } from "./ceilings.js";
 

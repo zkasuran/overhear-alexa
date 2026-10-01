@@ -1,6 +1,5 @@
-// Timeline math (pure). Derived from zkasuran/overhear (MiniMax Week, 2026-08) lib/audioEngine.ts
-// buildTimeline, reworked for the part model: a part is a sequence of voiced lines with a fixed gap
-// between them; an episode is a sequence of parts played back to back. All inputs in milliseconds.
+// Timeline math (pure). A part is a sequence of voiced lines with a fixed gap between them; an
+// episode is a sequence of parts played back to back. All inputs in milliseconds.
 
 export type LineTiming = { startMs: number; endMs: number };
 

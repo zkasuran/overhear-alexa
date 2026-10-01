@@ -1,5 +1,5 @@
 // Every ceiling in one place. Tests and runtime code import these constants, never a literal.
-// A hostile input must never exhaust memory or CPU: see 06-THREAT-MODEL / SECURITY.md.
+// A hostile input must never exhaust memory or CPU: see SECURITY.md.
 
 /** Source text kept after extraction, in characters. */
 export const MAX_SOURCE_CHARS = 50_000;

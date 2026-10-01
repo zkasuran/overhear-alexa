@@ -4,7 +4,15 @@
 // choice, not a code fork. The MCP transport / task runtime wiring is separate (see transport.ts);
 // those touch the SDK, these do not. Do not add provider types here.
 
-import type { PromptMessages, LineTiming, Episode, Part, EpisodeManifest, FormatId, Speaker } from "@overhear/core";
+import type {
+  PromptMessages,
+  LineTiming,
+  Episode,
+  Part,
+  EpisodeManifest,
+  FormatId,
+  Speaker,
+} from "@overhear/core";
 
 /** Structured logger. Redacts `authorization` and token-shaped fields at the sink. No console in libs. */
 export interface Logger {
@@ -21,7 +29,7 @@ export interface ModelCallOpts {
   signal?: AbortSignal;
 }
 
-/** Text model (Bedrock Converse, or the deterministic mock). Returns raw text; the caller extracts JSON. */
+/** Text model (Bedrock Converse or the deterministic mock). Returns raw text; the caller extracts JSON. */
 export interface ModelAdapter {
   readonly id: string;
   generate(messages: PromptMessages, opts?: ModelCallOpts): Promise<string>;
@@ -33,7 +41,7 @@ export interface SynthResult {
   mime: "audio/mpeg";
 }
 
-/** Text to speech (Polly generative, or the mock that replays a pre-rendered clip). */
+/** Text to speech (Polly generative or the mock that replays a pre-rendered clip). */
 export interface TtsAdapter {
   synthesize(
     text: string,
@@ -100,7 +108,7 @@ export interface Config {
   storeMode: "local" | "aws";
   region: string;
   bedrock: { planModelId: string; scriptModelId: string };
-  voices: Record<FormatId, Record<Speaker, string>>; // Polly (or MiniMax) voice id per format per speaker
+  voices: Record<FormatId, Record<Speaker, string>>; // Polly generative voice id per format per speaker
   s3Bucket: string;
   tables: { episodes: string; tasks: string; events: string };
   bind: { host: string; port: number };

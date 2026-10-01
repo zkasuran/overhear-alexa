@@ -1,0 +1,22 @@
+The Model Context Protocol: a shared socket for AI tools
+
+For years, every AI assistant that wanted to use an outside tool had to invent its own way to
+describe that tool, send a request and read the answer. A weather plugin written for one assistant
+did not work with another. The Model Context Protocol, or MCP, is an attempt to make that plumbing
+standard, the way USB made one plug fit many devices.
+
+An MCP server advertises three things to a client: tools it can run, resources it can read and
+prompts it can suggest. The client speaks one wire format to all of them, so a single assistant can
+reach a calendar, a database and a music studio without a custom integration for each. The protocol
+is transport agnostic, but the common choice over a network is streamable HTTP, which lets the server
+push progress and partial results back while a long job runs.
+
+The 2025 revision added first class support for long running work through tasks. Instead of a tool
+call that blocks until an answer is ready, a client can start a task, poll its status and reconnect to
+the same stream after a dropped connection without losing progress. That matters for anything slow,
+like rendering audio or video, where the old request and response shape would simply time out.
+
+What makes MCP interesting is not any single feature. It is that one well described surface lets tools
+and assistants that never met still work together. The cost is discipline: the server has to be
+honest about what it can do, validate everything a stranger sends and never let a long task leak one
+user's work to another.

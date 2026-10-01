@@ -1,7 +1,5 @@
-// Ported from zkasuran/overhear (MiniMax Week, 2026-08) lib/voices.ts — kept the four
-// format presets (names, tone, music seed) and dropped the MiniMax-specific voice ids.
-// Provider voice selection (Polly generative ids, or MiniMax ids if D-5 flips) lives in
-// config/default.ts, not here: core carries no provider detail.
+// The four show formats: names, tone and music seed per format. Provider voice selection (the Polly
+// generative voice ids) lives in config, not here: core carries no provider detail.
 
 import type { FormatId } from "./types.js";
 

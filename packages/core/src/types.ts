@@ -1,7 +1,7 @@
 // Shared domain model. Indexes are positions; ids are identity. partId and lineId are
 // what citations point at. No I/O here, no model/provider types.
 
-export type FormatId = "explainer" | "debate" | "cozy" | "hype"; // carried over from MiniMax Overhear
+export type FormatId = "explainer" | "debate" | "cozy" | "hype";
 
 export type Speaker = "host" | "expert";
 
