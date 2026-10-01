@@ -1,0 +1,42 @@
+{
+  "name": "overhear-alexa",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Two-host audio episodes you can steer by voice: an MCP server for Alexa+",
+  "license": "LicenseRef-zkasuran-SAND-1.0",
+  "engines": {
+    "node": ">=22.22.2"
+  },
+  "workspaces": [
+    "packages/core",
+    "packages/durable-stores",
+    "packages/server",
+    "packages/conformance",
+    "packages/sim-host",
+    "packages/sim-web"
+  ],
+  "scripts": {
+    "clean": "rimraf 'packages/*/dist' 'packages/*/*.tsbuildinfo'",
+    "typecheck": "tsc -b",
+    "build": "tsc -b",
+    "lint": "eslint .",
+    "format": "prettier --check .",
+    "format:write": "prettier --write .",
+    "test": "vitest run --reporter=dot",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.37.0",
+    "@types/node": "^22.18.9",
+    "eslint": "^9.37.0",
+    "fast-check": "^4.3.0",
+    "globals": "^16.4.0",
+    "prettier": "^3.6.2",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.46.0",
+    "vitest": "^3.2.4"
+  },
+  "overrides": {}
+}

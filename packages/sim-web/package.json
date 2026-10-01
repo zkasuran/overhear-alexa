@@ -1,0 +1,16 @@
+{
+  "name": "@overhear/sim-web",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Alexa+ simulator UI (Vite + TypeScript): device frame, gapless Web Audio player, ducking, captions, outline.",
+  "license": "LicenseRef-zkasuran-SAND-1.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --port 5173",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

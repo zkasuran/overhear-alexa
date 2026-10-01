@@ -1,0 +1,21 @@
+{
+  "name": "@overhear/core",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Pure domain for Overhear: types, ceilings, ids, JSON extraction, format sheet, timeline math. No I/O.",
+  "license": "LicenseRef-zkasuran-SAND-1.0",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js",
+    "./ceilings": "./dist/ceilings.js",
+    "./types": "./dist/types.js"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "test": "vitest run"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

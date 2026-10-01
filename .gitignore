@@ -1,0 +1,32 @@
+# deps and build output
+node_modules/
+dist/
+*.tsbuildinfo
+coverage/
+
+# local media + fixtures scratch (mock mode local store)
+.media/
+.data/
+*.sqlite
+*.sqlite-journal
+*.sqlite-wal
+*.sqlite-shm
+
+# env + secrets (never commit)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# private working material (never ships)
+/submit/
+
+# os / editor
+.DS_Store
+*.log
+.vite/
+packages/sim-web/dist/
+
+# spike scratch (lane-root, not product)
+spike/

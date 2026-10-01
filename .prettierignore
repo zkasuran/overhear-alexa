@@ -1,0 +1,11 @@
+node_modules
+dist
+coverage
+*.tsbuildinfo
+package-lock.json
+.media
+.data
+assets/beds
+docs/assets/screens
+fixtures/**/*.mp3
+fixtures/**/*.wav

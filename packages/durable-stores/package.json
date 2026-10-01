@@ -1,0 +1,19 @@
+{
+  "name": "@overhear/durable-stores",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Durable EventStore, TaskStore and TaskMessageQueue for the MCP SDK (SQLite + DynamoDB). Extracted to mcp-durable-stores at M5.",
+  "license": "Apache-2.0",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "test": "vitest run"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

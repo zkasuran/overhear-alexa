@@ -1,0 +1,10 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./packages/core" },
+    { "path": "./packages/durable-stores" },
+    { "path": "./packages/server" },
+    { "path": "./packages/conformance" },
+    { "path": "./packages/sim-host" }
+  ]
+}
