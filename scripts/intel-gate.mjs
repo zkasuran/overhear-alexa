@@ -42,7 +42,15 @@ const EXTS = new Set([
 
 function* walk(dir) {
   for (const name of readdirSync(dir)) {
-    if (name === "node_modules" || name === "dist" || name === ".git" || name === "coverage")
+    // Skip build output, deps, and private non-shipping dirs (submit/ and spike/ are gitignored).
+    if (
+      name === "node_modules" ||
+      name === "dist" ||
+      name === ".git" ||
+      name === "coverage" ||
+      name === "submit" ||
+      name === "spike"
+    )
       continue;
     const full = join(dir, name);
     const st = statSync(full);

@@ -53,16 +53,22 @@ services:
       overhear:
         condition: service_healthy
     environment:
-      OVERHEAR_SERVER_URL: http://overhear:8787/mcp
+      SIM_SERVER_URL: http://overhear:8787/mcp
+      SIM_TOKEN_FILE: /run/overhear/sim-token
+      SIM_HOST_HOST: 0.0.0.0 # bind all inside the container; the mapped ports below are loopback only
+      SIM_HOST_PORT: "8788"
       OVERHEAR_BEARER_TOKEN: ${OVERHEAR_BEARER_TOKEN:-overhear-local-dev-6Qp2Rt9Wkz}
-      OVERHEAR_SIM_PORT: "5173"
     command:
       - sh
       - -lc
       - |
+        node -e 'const f=require("fs");f.mkdirSync("/run/overhear",{recursive:true});f.writeFileSync("/run/overhear/sim-token",process.env.OVERHEAR_BEARER_TOKEN+"\n",{mode:0o600});'
         node packages/sim-host/dist/main.js &
         cd packages/sim-web
         npm run build
         exec npx vite preview --host 0.0.0.0 --port 5173 --strictPort
+    tmpfs:
+      - /run/overhear
     ports:
-      - "127.0.0.1:5173:5173"
+      - "127.0.0.1:5173:5173" # the device UI, open this in a browser
+      - "127.0.0.1:8788:8788" # the sim-host WebSocket + media proxy the browser connects to
