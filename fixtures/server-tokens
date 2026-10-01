@@ -1,0 +1,2 @@
+# Overhear bearer tokens: one principal:sha256(token) per line. See SECURITY.md.
+local:50684a2adf3f388adea8bee8e4796ace7a5022191bf5899e9ea4415a6e5aa903
