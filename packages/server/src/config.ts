@@ -15,7 +15,7 @@ function pick<T extends string>(v: string | undefined, allowed: readonly T[], df
 const DEFAULT_VOICES: Record<FormatId, Record<Speaker, string>> = {
   explainer: { host: "Ruth", expert: "Matthew" },
   debate: { host: "Danielle", expert: "Stephen" },
-  cozy: { host: "Joanna", expert: "Gregory" },
+  cozy: { host: "Joanna", expert: "Stephen" },
   hype: { host: "Danielle", expert: "Matthew" },
 };
 

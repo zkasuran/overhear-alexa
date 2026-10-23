@@ -143,9 +143,9 @@ default run needs no keys and spends nothing.
 - What worked well: Not exercised, the tooling is preview-only with no entrant access. The
   direction is clear and right: Alexa+ as an MCP client driving third-party servers over a public
   transport. Because the MCP contract itself is public, we could build the server to the spec and
-  test it against our own harness.
-- What needs work: With the tooling gated, we built our own conformance harness and are building
-  our own device simulator to stand in for it. A public statement of the exact Alexa+ client
+  test it against our own harness and our own simulator.
+- What needs work: With the tooling gated, we built our own conformance harness and our own
+  device simulator to stand in for it. A public statement of the exact Alexa+ client
   behavior would remove the guesswork: the auth scheme, the required headers, the task-polling
   cadence, the tool call order and how it holds the SSE stream open.
 - Onboarding: The vision is documented, the tools are not reachable. That gap is the single
