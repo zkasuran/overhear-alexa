@@ -8,6 +8,7 @@
 
 <p align="center">
   <a href="#try-it-in-one-command"><img alt="Try it in one command" src="https://img.shields.io/badge/%E2%96%B6%20Try%20it-one%20command-2563eb?style=for-the-badge"></a>
+  <a href="https://youtu.be/cT3XTVj8wk4"><img alt="Watch the 2:45 demo" src="https://img.shields.io/badge/%E2%96%B6%20Demo-watch%202%3A45-dc2626?style=for-the-badge"></a>
   <a href="#use-it-on-your-echo"><img alt="Use it on your Echo" src="https://img.shields.io/badge/Echo-use%20it%20by%20voice-0ea5e9?style=for-the-badge"></a>
 </p>
 
