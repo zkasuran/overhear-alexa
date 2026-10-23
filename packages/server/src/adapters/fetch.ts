@@ -157,7 +157,11 @@ function httpsDial(req: DialRequest): Promise<DialResponse> {
       {
         method: "GET",
         servername: req.host,
-        headers: { Host: req.host, Accept: "text/html, text/plain" },
+        headers: {
+          Host: req.host,
+          Accept: "text/html, text/plain",
+          "User-Agent": "Overhear/1.0 (+https://github.com/zkasuran/overhear-alexa)",
+        },
         signal: req.signal,
         lookup: pinnedLookup,
       },

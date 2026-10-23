@@ -187,8 +187,6 @@ export class Session {
     return total;
   }
 
-  // __METHODS__
-
   async #plan(command: Extract<Command, { type: "plan" }>): Promise<void> {
     this.#stopPoll();
     this.#rendering = false;
