@@ -177,6 +177,8 @@ check_live() {
 start_stack() { # mock|live
   local mode=$1
   check_ports
+  # The server refuses a token file others can read (git checks files out 0644).
+  chmod 600 fixtures/server-tokens fixtures/server-tokens-2 fixtures/test-token fixtures/test-token2
   local data; data=$(mktemp -d)
   if [ "$mode" = live ]; then
     load_conf
