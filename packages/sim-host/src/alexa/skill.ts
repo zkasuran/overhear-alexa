@@ -216,7 +216,7 @@ export function makeSkill(opts: SkillOptions) {
     if (plan) {
       const n = plan.parts.length;
       return say(
-        `Here's ${plan.title}. ${n} parts, about ${Math.max(1, Math.round(plan.totalEstSeconds / 60))} minutes. Say play to start.`,
+        `Here's ${plan.title}. ${n} parts, about ${Math.max(1, Math.round(plan.totalEstSeconds / 60))} minutes. Say play, or say start the episode.`,
         false,
       );
     }
@@ -466,6 +466,11 @@ export function makeSkill(opts: SkillOptions) {
         case "AMAZON.ShuffleOnIntent":
         case "AMAZON.ShuffleOffIntent":
           return say("Overhear plays an episode in order, so that is not available.", true);
+        case "AMAZON.FallbackIntent":
+          // Right after planning, a short "play" or "start it" is often heard as a fallback. If an
+          // episode is waiting, treat it as play rather than a dead end.
+          if (l.episodeId || l.planning) return onPlay(l);
+          return say("Say, brief me on, and a topic. Or say help.", false);
         default:
           return say("Say, brief me on, and a topic. Or say help.", false);
       }

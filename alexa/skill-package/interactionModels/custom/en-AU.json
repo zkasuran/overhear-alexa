@@ -1,0 +1,134 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "overhear studio",
+      "intents": [
+        {
+          "name": "PlanIntent",
+          "slots": [
+            {
+              "name": "topic",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "samples": [
+            "brief me on {topic}",
+            "brief me about {topic}",
+            "catch me up on {topic}",
+            "make an episode about {topic}",
+            "make an episode on {topic}",
+            "talk about {topic}",
+            "tell me about {topic}",
+            "do an episode on {topic}",
+            "explain {topic}"
+          ]
+        },
+        {
+          "name": "PlayEpisodeIntent",
+          "slots": [],
+          "samples": ["play", "play the episode", "start", "start the episode", "play it", "begin"]
+        },
+        {
+          "name": "GoDeeperIntent",
+          "slots": [],
+          "samples": [
+            "go deeper",
+            "go deeper on this",
+            "go deeper on that",
+            "tell me more about this",
+            "more on that",
+            "dig deeper",
+            "go deeper on the first point"
+          ]
+        },
+        {
+          "name": "AskIntent",
+          "slots": [
+            {
+              "name": "question",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "samples": [
+            "what did they say about {question}",
+            "what did they just say about {question}",
+            "what do they mean by {question}",
+            "ask the hosts {question}",
+            "question {question}"
+          ]
+        },
+        {
+          "name": "TimeLeftIntent",
+          "slots": [],
+          "samples": [
+            "how long is left",
+            "how much is left",
+            "how much time is left",
+            "how long to go"
+          ]
+        },
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.NavigateHomeIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.FallbackIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.PauseIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.ResumeIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.NextIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.PreviousIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StartOverIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.RepeatIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.LoopOnIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.LoopOffIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.ShuffleOnIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.ShuffleOffIntent",
+          "samples": []
+        }
+      ],
+      "types": []
+    }
+  }
+}

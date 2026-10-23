@@ -18,7 +18,7 @@ for i in $(seq 1 30); do
   st=$(ask smapi get-skill-status -s "$ID" --resource manifest | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>console.log(JSON.parse(s).manifest?.lastUpdateRequest?.status??""))')
   [ "$st" = "SUCCEEDED" ] && break; [ "$st" = "FAILED" ] && { ask smapi get-skill-status -s "$ID"; exit 1; }; sleep 2
 done
-for L in en-US en-IN; do
+for L in en-US en-IN en-GB en-AU en-CA; do
   ask smapi set-interaction-model -s "$ID" -g development -l $L --interaction-model "file:skill-package/interactionModels/custom/$L.json" >/dev/null
   for i in $(seq 1 60); do
     st=$(ask smapi get-skill-status -s "$ID" --resource interactionModel | L=$L node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{const m=JSON.parse(s).interactionModel??{};console.log(m[process.env.L]?.lastUpdateRequest?.status??"")})')
