@@ -18,7 +18,6 @@ const ALLOW = new Set([
   "Python-2.0",
   "Unlicense",
   "WTFPL",
-  "LicenseRef-zkasuran-SAND-1.0",
 ]);
 
 const OURS = /^@overhear\//;

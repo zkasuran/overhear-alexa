@@ -34,11 +34,8 @@ set up, which is why that row is marked `PENDING` rather than `OK`.
 
 ## Our own outbound licence
 
-This repository ships under the Source-Available No-Derivatives Licence 1.0, SPDX id
-`LicenseRef-zkasuran-SAND-1.0`. The full text is in `LICENSE`.
-
-The `packages/durable-stores` workspace is published under `Apache-2.0`, as declared in
-`packages/durable-stores/package.json`, so that it can be adopted on its own.
+This repository ships under the Apache License 2.0, SPDX id `Apache-2.0`. The full text is in
+`LICENSE`. Every workspace, including `packages/durable-stores`, uses the same licence.
 
 Development-only tooling (TypeScript, ESLint, Prettier, Vitest and fast-check with their
 dependencies) is not shipped in any published artifact and so adds no runtime or

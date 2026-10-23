@@ -1,4 +1,4 @@
-<!-- SPDX-License-Identifier: LicenseRef-zkasuran-SAND-1.0 -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="docs/assets/banner-dark.svg">
@@ -21,10 +21,12 @@
   <img alt="npm audit" src="https://img.shields.io/badge/npm%20audit-0%20findings-2ea44f?style=flat-square">
   <img alt="Conformance" src="https://img.shields.io/badge/conformance-28%2F34-2ea44f?style=flat-square">
   <img alt="Stack" src="https://img.shields.io/badge/stack-Node%2022%20%2B%20TypeScript-555?style=flat-square">
-  <img alt="Licence" src="https://img.shields.io/badge/licence-SAND--1.0-555?style=flat-square">
+  <img alt="Licence" src="https://img.shields.io/badge/licence-Apache--2.0-2ea44f?style=flat-square">
 </p>
 
 ---
+
+<h3 align="center">The podcast you can interrupt.</h3>
 
 **Overhear is a self-hosted MCP server that turns a topic, a link or a document into a two-host audio episode you steer by voice.** Point it at anything, pick a format, then two synthetic hosts talk it through while you skip around, go deeper or ask a question out loud. It speaks the newest Model Context Protocol, 2025-11-25, over Streamable HTTP, with seven tools, four resources and four prompts behind one bearer token. **The first part starts playing while the rest are still being written**, so you are listening in seconds instead of waiting for the whole episode.
 
@@ -239,13 +241,13 @@ The threat model is in **[SECURITY.md](SECURITY.md)**: one row per attacker and 
 ./verify.sh    # prints ALL GREEN only at the end; CI runs exactly this script
 ```
 
-The gate runs, in order: format, typecheck (server and web), lint with warnings denied, the unit and property tests, the licence check, the intel gate, `npm audit`, the build, then it boots the server in mock mode and runs the conformance matrix, the end-to-end session and the headless-Chrome UI gate in both themes at 390 and 1360 wide. `./verify.sh --live` adds the AWS adapter contract tests and a latency bench.
+The gate runs, in order: format, typecheck (server and web), lint with warnings denied, the unit and property tests, the licence check, the intel gate, `npm audit`, the build, then it boots the server in mock mode and runs the conformance matrix, the end-to-end session and the headless-Chrome UI gate in both themes at 390 and 1360 wide. `./verify.sh --live` adds the AWS adapter contract tests against real Bedrock, Polly, S3 and DynamoDB.
 
 ## Repository
 
 ```
 packages/core             the rules with no I/O: ceilings, ids, formats, prompts, timeline, JSON extractor
-packages/durable-stores   task store, task queue and resumable event store (SQLite + DynamoDB), Apache-2.0
+packages/durable-stores   task store, task queue and resumable event store (SQLite + DynamoDB), also published on its own as mcp-durable-stores
 packages/server           the MCP server: HTTP, transport, auth, quotas, 7 tools, resources, prompts, adapters
 packages/conformance      the MCP 2025-11-25 conformance client (raw HTTP + JSON-RPC + SSE, no SDK)
 packages/sim-host         the device-side MCP client, token holder and media proxy
@@ -266,8 +268,12 @@ verify.sh                 the one release gate
 - [ ] OAuth 2.1 authorization alongside the static bearer tokens
 - [ ] A shared rate limiter so budgets hold across more than one replica
 
+## Open-source spin-off
+
+The durable stores behind the task lifecycle are published as a standalone Apache-2.0 library, [mcp-durable-stores](https://github.com/zkasuran/mcp-durable-stores): SQLite and DynamoDB versions of the MCP SDK's `EventStore`, `TaskStore` and `TaskMessageQueue`, plus a conformance suite any other store can run against itself. The SDK ships only in-memory versions, which lose every task and resumable stream on a restart.
+
 ## Licence
 
-Source-available, no derivatives: [`LicenseRef-zkasuran-SAND-1.0`](LICENSE). You may run, read, audit and benchmark it; you may not redistribute it or build derivative works. The `packages/durable-stores` workspace is published separately under `Apache-2.0`, as its own `package.json` declares, so it can be adopted on its own. Third-party terms are recorded in [DATA-SOURCES.md](DATA-SOURCES.md) and [NOTICE](NOTICE).
+Apache License 2.0, see [LICENSE](LICENSE). Copyright 2026 zkasuran. Every package in this repository, including the `packages/durable-stores` workspace, ships under the same licence. Third-party terms are recorded in [DATA-SOURCES.md](DATA-SOURCES.md) and [NOTICE](NOTICE).
 
 <p align="center"><sub>Overhear for Alexa+ · a self-hosted MCP server for two-host audio you steer by voice.</sub></p>

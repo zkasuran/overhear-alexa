@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "description": "Alexa+ simulator UI (Vite + TypeScript): device frame, gapless Web Audio player, ducking, captions, outline.",
-  "license": "LicenseRef-zkasuran-SAND-1.0",
+  "license": "Apache-2.0",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

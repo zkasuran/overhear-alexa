@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "description": "Simulator host: MCP client, tool bridge, Nova Sonic session (or push-to-talk fallback), WebSocket to the browser.",
-  "license": "LicenseRef-zkasuran-SAND-1.0",
+  "license": "Apache-2.0",
   "main": "./dist/main.js",
   "scripts": {
     "build": "tsc -b",

@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "description": "MCP 2025-11-25 conformance CLI: runs the C/L/T/R matrix against any Streamable HTTP MCP URL.",
-  "license": "LicenseRef-zkasuran-SAND-1.0",
+  "license": "Apache-2.0",
   "bin": {
     "overhear-conformance": "./dist/cli.js"
   },

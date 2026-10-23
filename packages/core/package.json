@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "description": "Pure domain for Overhear: types, ceilings, ids, JSON extraction, format sheet, timeline math. No I/O.",
-  "license": "LicenseRef-zkasuran-SAND-1.0",
+  "license": "Apache-2.0",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {

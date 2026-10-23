@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # The one release gate. CI runs exactly this. Prints ALL GREEN only if every step passed.
 # Default run needs no AWS keys and spends no money: OVERHEAR_MODELS=mock, OVERHEAR_STORE=local.
-# Live AWS checks live behind `verify.sh --live` (adapter contract tests + latency bench).
+# Live AWS checks live behind `verify.sh --live` (adapter contract tests against real AWS).
 set -euo pipefail
 
 LIVE=0
@@ -32,7 +32,6 @@ step "ui gates";       node scripts/ui-gates.mjs
 
 if [[ "$LIVE" == "1" ]]; then
   step "live adapters"; OVERHEAR_LIVE_TESTS=1 npx vitest run packages/server/src/adapters
-  step "latency bench"; node scripts/bench-latency.mjs
 fi
 
 echo
