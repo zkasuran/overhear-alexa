@@ -21,7 +21,12 @@ async function main(): Promise<void> {
 
   const shutdown = (): void => {
     log.info("shutting down");
-    void server.close().then(() => client.close());
+    // Open browser sockets can hold the server open, so bound the graceful close and then exit.
+    setTimeout(() => process.exit(0), 2000).unref();
+    void server
+      .close()
+      .then(() => client.close())
+      .finally(() => process.exit(0));
   };
   process.on("SIGINT", shutdown);
   process.on("SIGTERM", shutdown);

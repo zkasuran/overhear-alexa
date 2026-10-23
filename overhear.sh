@@ -72,6 +72,13 @@ stop_all() {
     rm -f "$RUN/$name.pid"
   done
   pkill -f "vite preview --host 127.0.0.1 --port 5173" 2>/dev/null || true
+  local i p
+  for i in $(seq 1 20); do
+    local busy=0
+    for p in 8787 8788 5173 8790; do port_busy "$p" && busy=1; done
+    [ $busy = 0 ] && break
+    sleep 0.5
+  done
   [ $any = 1 ] && ok "stopped" || say "nothing was running"
 }
 
