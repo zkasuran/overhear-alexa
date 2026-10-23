@@ -57,7 +57,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
     text: {
       provider: pick(env.OVERHEAR_TEXT, ["bedrock", "openai"] as const, "bedrock"),
       baseUrl: env.OVERHEAR_OPENAI_BASE_URL ?? "https://api.gmi-serving.com/v1",
-      model: env.OVERHEAR_OPENAI_MODEL ?? "deepseek-ai/DeepSeek-V4-Flash",
+      model: env.OVERHEAR_OPENAI_MODEL ?? "deepseek-ai/deepseek-v4.1-flash-1017",
       keyFile: env.OVERHEAR_OPENAI_KEY_FILE ?? "",
     },
     voices: voicesFromEnv(env),

@@ -71,27 +71,50 @@ export const AskInput = z.object({
 });
 
 // ---- Model-output shapes (validated after extractJson) ----
+//
+// A real model overshoots a length cap now and then (a 230-character citation, a 41st line). Failing the
+// whole part for that would lose good output, so model-output strings and lists are clamped to their
+// ceiling instead of rejected: strings cut at a word boundary, lists trimmed to the cap. Shape errors
+// (a wrong speaker, a missing field) still fail.
+
+/** Cut a string to at most `max` characters, at the last space when there is one in the tail. */
+export function clampText(s: string, max: number): string {
+  if (s.length <= max) return s;
+  const cut = s.slice(0, max);
+  const space = cut.lastIndexOf(" ");
+  return (space > max * 0.6 ? cut.slice(0, space) : cut).trimEnd();
+}
+
+const clampedString = (max: number) =>
+  z
+    .string()
+    .min(1)
+    .transform((s) => clampText(s, max));
+
+const clampedList = <T extends z.ZodType>(item: T, max: number) =>
+  z
+    .array(item)
+    .min(1)
+    .transform((a) => a.slice(0, max));
 
 export const PlanModelOutput = z.object({
-  title: z.string().min(1).max(MAX_TITLE_CHARS),
-  dek: z.string().max(MAX_DEK_CHARS),
-  parts: z
-    .array(
-      z.object({
-        heading: z.string().min(1),
-        summary: z.string().min(1),
-        estSeconds: z.number().min(5).max(600),
-      }),
-    )
-    .min(1)
-    .max(MAX_PARTS),
+  title: clampedString(MAX_TITLE_CHARS),
+  dek: z.string().transform((s) => clampText(s, MAX_DEK_CHARS)),
+  parts: clampedList(
+    z.object({
+      heading: z.string().min(1),
+      summary: z.string().min(1),
+      estSeconds: z.number().min(5).max(600),
+    }),
+    MAX_PARTS,
+  ),
 });
 
 export const ScriptModelOutput = z.object({
-  lines: z
-    .array(z.object({ speaker: SpeakerSchema, text: z.string().min(1).max(MAX_LINE_CHARS) }))
-    .min(1)
-    .max(MAX_LINES_PER_PART),
+  lines: clampedList(
+    z.object({ speaker: SpeakerSchema, text: clampedString(MAX_LINE_CHARS) }),
+    MAX_LINES_PER_PART,
+  ),
 });
 
 export const ExpandModelOutput = z.object({
@@ -102,7 +125,7 @@ export const ExpandModelOutput = z.object({
 export const AskModelOutput = z.object({
   answer: z.string().min(1),
   grounded: z.boolean(),
-  citations: z.array(z.object({ quote: z.string().min(1).max(200) })).default([]),
+  citations: z.array(z.object({ quote: clampedString(200) })).default([]),
 });
 
 export const RecapModelOutput = z.object({ text: z.string().min(1) });

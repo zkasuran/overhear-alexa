@@ -126,7 +126,7 @@ export function buildControls(root: HTMLElement, sink: CommandSink): void {
   ]);
   const talkNote = el("p", {
     className: "note",
-    text: "Mock mode has no live speech, so type the request or tap a sample. The producer voice (Nova Sonic) needs AWS.",
+    text: "Type a request or tap a sample. Live speech input (Nova Sonic) is the next step; requests take the same path either way.",
   });
 
   // Sample utterances.

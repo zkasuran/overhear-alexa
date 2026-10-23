@@ -224,7 +224,7 @@ AWS_REGION=us-west-2 OVERHEAR_MODELS=aws OVERHEAR_STORE=local \
   node packages/server/dist/main.js
 ```
 
-`GET /health` reports which text model and which speech engine are live, and the simulator badge switches from "mock" to "live". The recorded demo runs the second command: Amazon Polly voices every line, and `deepseek-ai/DeepSeek-V4-Flash` on GMI Cloud writes the scripts, because Bedrock model invocation is still pending account verification on the demo account. A full live session (plan, render, find, ask) passed `scripts/e2e-session.mjs` in 28 s, with the first mixed part ready about 21 s after connect. The AWS calls, table design and a least-privilege IAM policy are in [docs/AWS.md](docs/AWS.md).
+`GET /health` reports which text model and which speech engine are live, and the simulator badge switches from "mock" to "live". The recorded demo runs the second command: Amazon Polly voices every line, and `deepseek-ai/deepseek-v4.1-flash-1017` on GMI Cloud writes the scripts, because Bedrock model invocation is still pending account verification on the demo account. A full live session (plan, render, find, ask) passed `scripts/e2e-session.mjs` in 21 s. The AWS calls, table design and a least-privilege IAM policy are in [docs/AWS.md](docs/AWS.md).
 
 ## Command line
 

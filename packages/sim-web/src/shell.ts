@@ -61,7 +61,7 @@ function aboutSection(): HTMLElement {
     "Pause, skip and time left resolve on the host with no model; a question or go deeper calls a tool.",
   ];
   const real = [
-    "Audio is rendered by mock models in the default run mode and is labelled a recorded sample.",
+    "Live mode voices every line with Amazon Polly. The default mock mode plays a labelled recorded sample.",
     "The producer uses a push-to-talk fallback; the Nova Sonic voice needs AWS and is not active here.",
     "Planning, rendering, questions and navigation all run against the live server over MCP.",
   ];
@@ -149,7 +149,7 @@ export function buildShell(root: HTMLElement): Shell {
 
   const main = el("main", { className: "wrap" }, [hero, stage, controlsRoot, aboutSection()]);
   const footer = el("footer", { className: "site-footer" }, [
-    el("span", { text: "Alexa+ simulator. Audio in the default mode is a recorded sample." }),
+    el("span", { text: "Alexa+ simulator. The badge shows live or mock." }),
   ]);
 
   root.appendChild(header);

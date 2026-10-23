@@ -110,7 +110,9 @@ export class App {
   #handle(ev: Event): void {
     switch (ev.type) {
       case "status":
-        this.#device.setMode(ev.mode === "mock" ? "mock, recorded samples" : "live");
+        this.#device.setMode(
+          ev.mode === "mock" ? "mock, recorded samples" : "live, Amazon Polly voices",
+        );
         this.#notice("info", ev.label);
         break;
       case "ring":
