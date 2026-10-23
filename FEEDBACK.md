@@ -128,6 +128,20 @@ default run needs no keys and spends nothing.
 - Build again? Yes. Conditional writes plus a TTL attribute cover the task lifecycle without a
   second system.
 
+## GMI Cloud (OpenAI-compatible inference)
+
+- Used for: Writing the episode scripts in the recorded live demo, through
+  `packages/server/src/adapters/openaiCompat.ts`, while Bedrock invocation was pending on our
+  account. Model `deepseek-ai/deepseek-v4.1-flash-1017`.
+- What worked well: A standard chat-completions endpoint, so the adapter is one `fetch`. We
+  compared models on our real prompts: the chosen one passed the full live session 3 of 3 times in
+  21 to 26 s.
+- What needs work: Output varies by model. Some broke our strict schema (a wrong speaker label) or
+  overshot a length cap, which is why model output is now clamped to its ceilings instead of
+  rejected. Response time also varied under parallel renders, so one run hit our 30 s model timeout.
+- Onboarding: Key in, list models, call. Minutes.
+- Build again? Yes, as a second text provider behind the same seam.
+
 ## Kiro
 
 - Used for: Building the project. Navigating an npm-workspace monorepo, writing the adapters, the
