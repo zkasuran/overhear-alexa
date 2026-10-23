@@ -125,7 +125,7 @@ export function buildShell(root: HTMLElement): Shell {
     el("h1", { className: "hero-title", text: "Steer a two-host audio episode by voice." }),
     el("p", {
       className: "hero-sub",
-      text: "Plan an outline, play it, then go deeper, ask a question or skip around while it plays. This device view drives the live server through the simulator host.",
+      text: "Type any topic, link or text and two hosts talk it through. Go deeper, ask a question or skip around while it plays. This device view drives the real MCP server through the simulator host.",
     }),
   ]);
 

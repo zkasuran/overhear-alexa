@@ -7,9 +7,13 @@
 </p>
 
 <p align="center">
-  <a href="#try-it-in-60-seconds">Try it</a> ·
+  <a href="#try-it-in-one-command"><img alt="Try it in one command" src="https://img.shields.io/badge/%E2%96%B6%20Try%20it-one%20command-2563eb?style=for-the-badge"></a>
+  <a href="#use-it-on-your-echo"><img alt="Use it on your Echo" src="https://img.shields.io/badge/Echo-use%20it%20by%20voice-0ea5e9?style=for-the-badge"></a>
+</p>
+
+<p align="center">
   <a href="#how-it-works">How it works</a> ·
-  <a href="#on-a-real-echo">On a real Echo</a> ·
+  <a href="#use-it-on-your-echo">On your Echo</a> ·
   <a href="#tools-resources-and-prompts">Tools</a> ·
   <a href="#mcp-conformance">Conformance</a> ·
   <a href="docs/ARCHITECTURE.md">Architecture</a> ·
@@ -18,7 +22,7 @@
 
 <p align="center">
   <img alt="MCP protocol 2025-11-25" src="https://img.shields.io/badge/MCP-2025--11--25-4a9fe0?style=flat-square">
-  <img alt="Tests" src="https://img.shields.io/badge/tests-236%20passing-2ea44f?style=flat-square">
+  <img alt="Tests" src="https://img.shields.io/badge/tests-248%20passing-2ea44f?style=flat-square">
   <img alt="npm audit" src="https://img.shields.io/badge/npm%20audit-0%20findings-2ea44f?style=flat-square">
   <img alt="Conformance" src="https://img.shields.io/badge/conformance-28%2F34-2ea44f?style=flat-square">
   <img alt="Stack" src="https://img.shields.io/badge/stack-Node%2022%20%2B%20TypeScript-555?style=flat-square">
@@ -29,7 +33,7 @@
 
 <h3 align="center">The podcast you can interrupt.</h3>
 
-**Overhear is a self-hosted MCP server that turns a topic, a link or a document into a two-host audio episode you steer by voice.** Point it at anything, pick a format, then two synthetic hosts talk it through while you skip around, go deeper or ask a question out loud. It speaks the newest Model Context Protocol, 2025-11-25, over Streamable HTTP, with seven tools, four resources and four prompts behind one bearer token. **The first part starts playing while the rest are still being written**, so you are listening in seconds instead of waiting for the whole episode.
+**Overhear is a self-hosted MCP server that turns any topic, link or document into a two-host audio episode you steer by voice.** Ask about anything, pick a format, then two synthetic hosts talk it through while you skip around, go deeper or ask a question out loud. It speaks the newest Model Context Protocol, 2025-11-25, over Streamable HTTP, with seven tools, four resources and four prompts behind one bearer token. **The first part starts playing while the rest are still being written**, so you are listening in seconds instead of waiting for the whole episode.
 
 > **Why now.** The 2025-11-25 MCP revision made long-running work first class with a tasks API. Overhear is built on it: rendering an episode is a task you watch, cancel and resume, not a call that blocks. The conformance suite checks that surface against the raw wire, **28 of 34** rows, with every non-advisory row passing.
 
@@ -40,25 +44,40 @@
   </picture>
 </p>
 
-## Try it in 60 seconds
+## Try it in one command
 
-There is no hosted demo. The whole product runs on your machine, which is what the hackathon accepts, so a judge sees the real server and the real simulator with no account and no spend. One command brings up both in mock mode, bound to loopback only.
+Linux or macOS (Windows: use WSL), with **Node 22+** and **ffmpeg** installed:
 
 ```bash
-docker compose up      # the MCP server on 127.0.0.1:8787, the Alexa+ simulator on 127.0.0.1:5173
+curl -fsSL https://raw.githubusercontent.com/zkasuran/overhear-alexa/main/install.sh | bash
 ```
 
-Then open **http://127.0.0.1:5173**.
+That clones the repo, installs, builds and opens a menu. The same thing by hand:
 
-|     | Do this                                                                      | You will see                                                                                                                   |
-| --- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| 1   | Open the simulator                                                           | The device connects to the server, both in mock mode, the badge reads "mock, recorded samples"                                 |
-| 2   | Pick a topic and a format, press **Plan episode**                            | A titled outline, each part flipping from `writing` to `ready`                                                                 |
-| 3   | Press **Play**                                                               | The first part plays while the later parts are still being written                                                             |
-| 4   | Say or type **"go deeper"**, **"skip this"** or **"what did they just say"** | The episode expands a part, jumps or recaps, without stopping playback                                                         |
-| 5   | Ask a question out loud                                                      | A spoken answer grounded only in the source and the transcript. If neither covers it, a plain "the episode did not cover that" |
+```bash
+git clone https://github.com/zkasuran/overhear-alexa && cd overhear-alexa && ./overhear.sh
+```
 
-No AWS keys are needed for any of this. The mock audio is a real MP3 so you actually hear it, labelled a recorded sample. To hear real voices, see [Live mode](#live-mode) below.
+| Menu          | What it does                                                                                                          | Needs                                        |
+| ------------- | --------------------------------------------------------------------------------------------------------------------- | -------------------------------------------- |
+| 1 `demo`      | Mock mode: the full product with recorded-sample audio. Opens the simulator at 127.0.0.1:5173                         | nothing                                      |
+| 2 `live`      | Real **Amazon Polly** voices and real scripts on any topic                                                            | AWS credentials for Polly, plus a text model |
+| 3 `echo`      | Live mode on **your own Echo** through the Overhear Studio skill (see [below](#use-it-on-your-echo))                  | an Echo and an Amazon developer login        |
+| 4 `configure` | Asks for the region, AWS profile and script model (Bedrock Nova, or any OpenAI-compatible API), checks each one works |                                              |
+| 5-8           | `status`, `logs`, `stop`, `verify` (the full release gate)                                                            |                                              |
+
+Every option also runs directly, for example `./overhear.sh demo` or `./overhear.sh stop`. Keys are asked for once, stored in `~/.config/overhear/` with mode 600 and read from files, never from the command line.
+
+### Then, in the simulator (http://127.0.0.1:5173)
+
+|     | Do this                                                                            | You will see                                                                                             |
+| --- | ---------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| 1   | Type **any topic**, paste a **https:// link** or some text, press **Plan episode** | A titled outline in seconds (the Examples menu fills in ideas)                                           |
+| 2   | Press **Play**                                                                     | Part 1 plays while the later parts are still being written; each part flips to `ready`                   |
+| 3   | Press **Go deeper**, **Skip**, **Back** or **Time left**                           | A deeper part is inserted right after the current one, or playback jumps, without stopping               |
+| 4   | Type a question, for example "what did they say about the mirror?"                 | A spoken answer grounded only in the source and what the hosts said, or "the episode did not cover that" |
+
+The badge on the device says **mock** or **live, Amazon Polly voices**, so the run mode is never ambiguous. Prefer Docker? `docker compose up` runs the demo mode the same way.
 
 ## How it works
 
@@ -136,12 +155,12 @@ Four prompts, one per format, so a plain MCP client finds the product without re
 
 The device is the only simulated piece. Everything it calls is the real server. The mock twins are labelled in the product.
 
-| Real                                                                                                  | Simulated or mocked, labelled                                                                                                                                                                |
-| ----------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| The MCP server and its Streamable HTTP transport, protocol 2025-11-25                                 | The Alexa+ device. The web client and the host stand in for the Alexa+ surface; the same server also runs on a real Echo through a development skill (see [On a real Echo](#on-a-real-echo)) |
-| The seven tools, the four resources, the four prompts and the task lifecycle                          | Mock models: `OVERHEAR_MODELS=mock` swaps in deterministic text and voice twins, labelled "recorded sample" in the UI                                                                        |
-| The SQLite durable stores, the ffmpeg audio mixer and the SSRF-guarded source fetcher                 | The mock audio is a real short MP3 sized to the text, not silence, so a judge hears the product                                                                                              |
-| In AWS mode: Amazon Bedrock (Nova), Amazon Polly, Amazon S3 and Amazon DynamoDB, each called for real | `GET /health` and the startup banner print the models mode and the store mode, so the run mode is never ambiguous                                                                            |
+| Real                                                                                                  | Simulated or mocked, labelled                                                                                                                                                                          |
+| ----------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| The MCP server and its Streamable HTTP transport, protocol 2025-11-25                                 | The Alexa+ device. The web client and the host stand in for the Alexa+ surface; the same server also runs on a real Echo through a development skill (see [Use it on your Echo](#use-it-on-your-echo)) |
+| The seven tools, the four resources, the four prompts and the task lifecycle                          | Mock models: `OVERHEAR_MODELS=mock` swaps in deterministic text and voice twins, labelled "recorded sample" in the UI                                                                                  |
+| The SQLite durable stores, the ffmpeg audio mixer and the SSRF-guarded source fetcher                 | The mock audio is a real short MP3 sized to the text, not silence, so a judge hears the product                                                                                                        |
+| In AWS mode: Amazon Bedrock (Nova), Amazon Polly, Amazon S3 and Amazon DynamoDB, each called for real | `GET /health` and the startup banner print the models mode and the store mode, so the run mode is never ambiguous                                                                                      |
 
 ## MCP conformance
 
@@ -192,7 +211,7 @@ One core holds every rule with no I/O. The server, the conformance client and th
 
 ## Run it locally
 
-The one-command path is `docker compose up` above. To run the three processes directly, Node 22 and ffmpeg on the path:
+`./overhear.sh` does all of this for you. To run the three processes by hand, with Node 22 and ffmpeg on the path:
 
 ```bash
 npm ci
@@ -212,7 +231,7 @@ Open **http://127.0.0.1:5173**. The server binds loopback only unless `OVERHEAR_
 
 ## Live mode
 
-Live mode speaks with **Amazon Polly generative voices** and writes the scripts with either **Amazon Bedrock (Nova)** or any OpenAI-compatible endpoint. Both text providers sit behind the same adapter seam, so switching is one env value.
+`./overhear.sh configure` sets this up interactively. Live mode speaks with **Amazon Polly generative voices** and writes the scripts with either **Amazon Bedrock (Nova)** or any OpenAI-compatible endpoint. Both text providers sit behind the same adapter seam, so switching is one env value.
 
 ```bash
 # Polly voices + Bedrock Nova scripts
@@ -227,27 +246,30 @@ AWS_REGION=us-west-2 OVERHEAR_MODELS=aws OVERHEAR_STORE=local \
 
 `GET /health` reports which text model and which speech engine are live, and the simulator badge switches from "mock" to "live". The recorded demo runs the second command: Amazon Polly voices every line, and `deepseek-ai/deepseek-v4.1-flash-1017` on GMI Cloud writes the scripts, because Bedrock model invocation is still pending account verification on the demo account. A full live session (plan, render, find, ask) passed `scripts/e2e-session.mjs` in 21 s. The AWS calls, table design and a least-privilege IAM policy are in [docs/AWS.md](docs/AWS.md).
 
-## On a real Echo
+## Use it on your Echo
 
-The same server runs on a real Echo through a development Alexa skill, **Overhear Studio**, with the AudioPlayer interface. The skill endpoint lives in `packages/sim-host/src/alexa/`: it maps each spoken request to an MCP tool, streams each part to the Echo as Amazon Polly audio, and queues the next part (including a deeper part `expand_part` just inserted) when the current one nearly ends. Every request is checked the way the Alexa Skills Kit requires for a self-hosted endpoint: certificate URL, certificate chain and name, RSA SHA-256 signature over the body, a 150 s timestamp window and the skill id.
+Overhear also runs on a real Echo through a development Alexa skill, **Overhear Studio**. A development skill needs no certification: it works on every Echo signed in to your Amazon developer account.
 
-| Say                                                                          | What happens                                                               |
-| ---------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| "Alexa, open overhear studio", then "brief me on the James Webb telescope"   | `plan_episode`, then `render_episode` starts as a task                     |
-| "play"                                                                       | the first part streams as soon as it is voiced                             |
-| "Alexa, tell overhear studio to go deeper"                                   | `expand_part` adds a deeper part, which plays right after this one         |
-| "Alexa, ask overhear studio what did they say about the mirror"              | `ask` answers from the source and the transcript, then the episode resumes |
-| "Alexa, ask overhear studio how long is left", "Alexa, next", "Alexa, pause" | answered on the endpoint, no model call                                    |
+**Set it up (about 3 minutes):**
 
-To run it on your own Echo: start the server in live mode, put an https tunnel in front of port 8790 (for example `cloudflared tunnel --url http://127.0.0.1:8790`), run `ask configure` once, then:
+1. Sign in to your Echo and to [developer.amazon.com](https://developer.amazon.com) with the **same Amazon account**. The Echo's language must be English (US, India, UK, Australia or Canada).
+2. Run `./overhear.sh echo`. It configures live mode if needed, installs the Alexa Skills Kit CLI and `cloudflared` if missing, then:
+   - opens a browser for `ask configure`: sign in, press **Allow**, keep profile `default`, and answer **No** to "link your AWS account" (the skill runs on your machine, not in AWS);
+   - starts a free https tunnel so the Echo can reach this machine;
+   - creates the Overhear Studio skill, points it at the tunnel and starts the skill endpoint.
+3. Talk to the Echo:
 
-```bash
-alexa/deploy.sh https://<your-tunnel>                     # creates the development skill, en-US and en-IN
-ALEXA_PUBLIC_BASE=https://<your-tunnel> ALEXA_SKILL_ID=$(cat alexa/.skill-id) \
-  node packages/sim-host/dist/alexa/main.js
-```
+| Say                                                                                           | What happens                                                                |
+| --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| "Alexa, open overhear studio", then "brief me on **any topic**"                               | `plan_episode` writes an outline and `render_episode` starts as an MCP task |
+| about 10 seconds later: "Alexa, ask overhear studio to play"                                  | the first part streams to the Echo as soon as it is voiced                  |
+| "Alexa, tell overhear studio to go deeper"                                                    | `expand_part` adds a deeper part, which plays right after this one          |
+| "Alexa, ask overhear studio what did they say about _something_"                              | `ask` answers from the source and the transcript, then the episode resumes  |
+| "Alexa, ask overhear studio how long is left", "Alexa, next", "Alexa, pause", "Alexa, resume" | answered on the endpoint, no model call                                     |
 
-A development skill works on every Echo signed in to the developer account, with no certification. Alexa allows a skill about 8 seconds per answer, so while the first part is still being voiced the skill says so and you say "play" again; a slow answer to a question is kept and returned when you ask it again.
+If Alexa answers "I'm not sure how to help with that", open the Alexa app, go to **More > Skills & Games > Your Skills > Dev**, check that Overhear Studio is listed and enabled, and check the Echo's language. Keep the machine awake while you use the Echo.
+
+How it works: the skill endpoint (`packages/sim-host/src/alexa/`) maps each spoken request to an MCP tool on the same server, streams each part with the AudioPlayer interface and queues the next part, including a deeper part `expand_part` just inserted, when the current one nearly ends. Every request is checked the way the Alexa Skills Kit requires for a self-hosted endpoint: certificate URL, certificate chain and name, RSA SHA-256 signature over the body, a 150 s timestamp window and the skill id. Alexa allows a skill about 8 seconds per answer, so while a part is still being voiced the skill says so and you ask again; a slow answer to a question is kept and returned the next time you ask it.
 
 ## Command line
 
@@ -296,6 +318,8 @@ docs/AWS.md               the AWS calls, table design and a least-privilege IAM 
 docs/ARCHITECTURE.md      the package map and the request walkthrough
 SECURITY.md               threat model, defences and known limits
 verify.sh                 the one release gate
+overhear.sh               the launcher: demo, live, echo, configure, status, logs, stop, verify
+install.sh                one-line bootstrap: clone, then open the launcher
 ```
 
 ## Roadmap
@@ -304,6 +328,7 @@ verify.sh                 the one release gate
 - [x] Mock models and local store as the default, so the whole product runs with no AWS account
 - [x] AWS mode on Amazon Bedrock (Nova), Polly, S3 and DynamoDB, with a least-privilege policy
 - [x] The Alexa+ simulator: a gapless Web Audio player, ducking, captions and a steer-by-voice surface
+- [x] A real Echo: the Overhear Studio development skill on the same MCP server
 - [ ] Live Nova Sonic speech-to-speech in the simulator host, in place of the push-to-talk fallback
 - [ ] OAuth 2.1 authorization alongside the static bearer tokens
 - [ ] A shared rate limiter so budgets hold across more than one replica
