@@ -272,3 +272,22 @@ Medium costs real time or quality, Low is a papercut worth noting.
   short wait clears it in our test. In the product the client transport handles the backoff.
 - Actionable suggestion: Note the single-standalone-stream rule and the 409 next to the
   resumability docs, so a custom client sequences the reconnect instead of hammering it.
+
+### 16. Bedrock returns "Operation not allowed" for every model, with no hint of the cause
+
+- Task attempted: Run the live demo with Amazon Nova writing the episode scripts through the
+  Bedrock Converse API.
+- Steps taken: Called `converse` from the CLI and from the server for Nova Lite, Nova Pro, Nova 2
+  Lite, Llama 3 8B, Mistral 7B and gpt-oss-20b, in us-east-1, us-west-2 and us-east-2, with and
+  without inference profiles. Then called `get-foundation-model-availability`.
+- Expected vs actual: We expected a text reply, or an access error naming the missing step.
+  Every call returned `ValidationException: Operation not allowed`. Only the availability call
+  explained anything: `authorizationStatus: NOT_AUTHORIZED` while agreement, entitlement and
+  region all read `AVAILABLE`. Amazon Polly on the same account worked first time.
+- Severity: High. It blocked the live text path the day before the deadline.
+- Workaround: An OpenAI-compatible text adapter behind the same `ModelAdapter` seam
+  (`packages/server/src/adapters/openaiCompat.ts`), selected with `OVERHEAR_TEXT=openai`. Bedrock
+  stays the default, and Polly still voices every line.
+- Actionable suggestion: Return an `AccessDeniedException` that says the account is pending
+  Bedrock verification and links to the support path, and show the same state on the console
+  model-access page, instead of a validation error that reads like a malformed request.

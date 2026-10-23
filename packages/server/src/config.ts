@@ -54,6 +54,12 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
       planModelId: env.OVERHEAR_PLAN_MODEL ?? "amazon.nova-lite-v1:0", // default; override with env
       scriptModelId: env.OVERHEAR_SCRIPT_MODEL ?? "amazon.nova-pro-v1:0", // default; override with env
     },
+    text: {
+      provider: pick(env.OVERHEAR_TEXT, ["bedrock", "openai"] as const, "bedrock"),
+      baseUrl: env.OVERHEAR_OPENAI_BASE_URL ?? "https://api.gmi-serving.com/v1",
+      model: env.OVERHEAR_OPENAI_MODEL ?? "deepseek-ai/DeepSeek-V4-Flash",
+      keyFile: env.OVERHEAR_OPENAI_KEY_FILE ?? "",
+    },
     voices: voicesFromEnv(env),
     s3Bucket: env.OVERHEAR_S3_BUCKET ?? "",
     tables: {
@@ -79,6 +85,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
 export function bannerLines(c: Config): string[] {
   return [
     `overhear server  models=${c.modelsMode}  store=${c.storeMode}  region=${c.region}`,
+    `text=${c.modelsMode === "mock" ? "mock" : c.text.provider === "openai" ? `openai-compatible ${c.text.model}` : `bedrock ${c.bedrock.scriptModelId}`}  speech=${c.modelsMode === "mock" ? "mock" : "polly"}`,
     `bind=${c.bind.host}:${c.bind.port}${c.bindPublic ? "  (PUBLIC)" : ""}  origins=[${c.originAllowlist.join(",")}]`,
     `tokens=${c.tokenFile}  presignTtl=${c.presignTtlSeconds}s`,
   ];

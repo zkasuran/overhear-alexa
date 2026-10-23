@@ -108,6 +108,8 @@ export interface Config {
   storeMode: "local" | "aws";
   region: string;
   bedrock: { planModelId: string; scriptModelId: string };
+  /** Which provider writes the scripts in aws mode: Amazon Bedrock, or an OpenAI-compatible endpoint. */
+  text: { provider: "bedrock" | "openai"; baseUrl: string; model: string; keyFile: string };
   voices: Record<FormatId, Record<Speaker, string>>; // Polly generative voice id per format per speaker
   s3Bucket: string;
   tables: { episodes: string; tasks: string; events: string };

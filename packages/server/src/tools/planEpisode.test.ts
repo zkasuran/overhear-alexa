@@ -25,6 +25,7 @@ function makeConfig(): Config {
     storeMode: "local",
     region: "us-east-1",
     bedrock: { planModelId: "p", scriptModelId: "s" },
+    text: { provider: "bedrock", baseUrl: "", model: "", keyFile: "" },
     voices,
     s3Bucket: "",
     tables: { episodes: "e", tasks: "t", events: "v" },

@@ -48,8 +48,12 @@ default run needs no keys and spends nothing.
   blocks we join. One AbortController folds our timeout and the caller's signal into the single
   signal the SDK aborts on, so a slow model cannot hang a render
   (`packages/server/src/adapters/bedrock.ts:38-56`).
-- What needs work: Not exercised live this session. We had no AWS credentials, so we make no
-  latency or quality claim. The specific foundation model's own usage terms have to be accepted
+- What needs work: On our account every Converse call, for every model and region we tried
+  (Nova Lite, Nova Pro, Nova 2 Lite, Llama, Mistral; us-east-1, us-west-2, us-east-2), returns
+  `ValidationException: Operation not allowed`, and `get-foundation-model-availability` reports
+  `authorizationStatus: NOT_AUTHORIZED`. The error names neither the cause (account verification)
+  nor the fix, so it cost real time. We kept Bedrock as the default text provider and added an
+  OpenAI-compatible adapter behind the same seam so the live demo could run. The specific foundation model's own usage terms have to be accepted
   before a live run, which the service terms do not cover on their own. Converse returning text
   as an array of blocks means a caller has to join them rather than read one string.
 - Onboarding: The v3 client is a region plus a model id and one command. Straightforward.
@@ -76,12 +80,15 @@ default run needs no keys and spends nothing.
 
 - Used for: Text to speech for the two host voices, one mp3 clip per line, with a distinct
   generative voice per format and speaker.
-- What worked well: Not exercised live this session (no credentials), so no latency number. The
-  call itself is simple on paper: SynthesizeSpeech with the generative engine, mp3 at 24 kHz and
-  a voice id. Our mock twin stands in for the default run and emits a real short mp3 tone sized
+- What worked well: Exercised live in us-west-2. SynthesizeSpeech with the generative engine, mp3
+  at 24 kHz and a voice id, worked first time for Ruth, Matthew, Danielle, Stephen and Joanna.
+  A full live session voiced and mixed its first part about 21 s after connect, script writing
+  included. Our mock twin stands in for the default run and emits a real short mp3 tone sized
   to the text, so the product is audible without any AWS call and a judge hears something real
   (`packages/server/src/adapters/mock/tts.ts`).
-- What needs work: The generative engine has no emotion or speaking-style control and honours
+- What needs work: Not every voice has the generative engine (Gregory and Kevin return
+  `This voice does not support the selected engine`), and the voice list does not make that easy
+  to see up front, so our default cozy voice failed until we swapped it. The generative engine has no emotion or speaking-style control and honours
   only part of SSML, so a scripted two-host dialogue loses surprise and irony. We moved the
   delivery into the words and the punctuation to compensate. The response also carries no clip
   duration, so we measure the real bytes with ffprobe to time the mix.

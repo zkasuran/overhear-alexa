@@ -57,7 +57,7 @@ Then open **http://127.0.0.1:5173**.
 | 4   | Say or type **"go deeper"**, **"skip this"** or **"what did they just say"** | The episode expands a part, jumps or recaps, without stopping playback                                                         |
 | 5   | Ask a question out loud                                                      | A spoken answer grounded only in the source and the transcript. If neither covers it, a plain "the episode did not cover that" |
 
-No AWS keys are needed for any of this. The mock audio is a real MP3 so you actually hear it, labelled a recorded sample. To run against Amazon Bedrock and Polly instead, see [docs/AWS.md](docs/AWS.md).
+No AWS keys are needed for any of this. The mock audio is a real MP3 so you actually hear it, labelled a recorded sample. To hear real voices, see [Live mode](#live-mode) below.
 
 ## How it works
 
@@ -208,6 +208,23 @@ npm run preview -w @overhear/sim-web                                         # 1
 ```
 
 Open **http://127.0.0.1:5173**. The server binds loopback only unless `OVERHEAR_BIND_PUBLIC=1`. Every request still needs the bearer token.
+
+## Live mode
+
+Live mode speaks with **Amazon Polly generative voices** and writes the scripts with either **Amazon Bedrock (Nova)** or any OpenAI-compatible endpoint. Both text providers sit behind the same adapter seam, so switching is one env value.
+
+```bash
+# Polly voices + Bedrock Nova scripts
+AWS_REGION=us-west-2 OVERHEAR_MODELS=aws OVERHEAR_STORE=local node packages/server/dist/main.js
+
+# Polly voices + scripts from an OpenAI-compatible endpoint (GMI Cloud by default)
+echo "$YOUR_KEY" > ~/.overhear-text.key && chmod 600 ~/.overhear-text.key
+AWS_REGION=us-west-2 OVERHEAR_MODELS=aws OVERHEAR_STORE=local \
+  OVERHEAR_TEXT=openai OVERHEAR_OPENAI_KEY_FILE=~/.overhear-text.key \
+  node packages/server/dist/main.js
+```
+
+`GET /health` reports which text model and which speech engine are live, and the simulator badge switches from "mock" to "live". The recorded demo runs the second command: Amazon Polly voices every line, and `deepseek-ai/DeepSeek-V4-Flash` on GMI Cloud writes the scripts, because Bedrock model invocation is still pending account verification on the demo account. A full live session (plan, render, find, ask) passed `scripts/e2e-session.mjs` in 28 s, with the first mixed part ready about 21 s after connect. The AWS calls, table design and a least-privilege IAM policy are in [docs/AWS.md](docs/AWS.md).
 
 ## Command line
 

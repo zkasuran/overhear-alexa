@@ -290,7 +290,18 @@ export function createApp(deps: AppDeps): Hono {
   };
   const app = new Hono();
   app.get("/health", (c) =>
-    c.json({ status: "ok", mode: deps.config.modelsMode, store: deps.config.storeMode }),
+    c.json({
+      status: "ok",
+      mode: deps.config.modelsMode,
+      store: deps.config.storeMode,
+      text:
+        deps.config.modelsMode === "mock"
+          ? "mock"
+          : deps.config.text.provider === "openai"
+            ? deps.config.text.model
+            : deps.config.bedrock.scriptModelId,
+      speech: deps.config.modelsMode === "mock" ? "mock" : "amazon-polly",
+    }),
   );
   app.get("/media/:token", (c) => serveMedia(c, deps.config.mediaDir));
   app.all("/mcp", (c) => handleMcp(deps, factory, c));

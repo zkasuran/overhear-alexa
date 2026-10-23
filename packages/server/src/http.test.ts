@@ -86,7 +86,13 @@ describe("health and media", () => {
   it("GET /health is 200 with mode and store, no auth", async () => {
     const res = await app.request("/health");
     expect(res.status).toBe(200);
-    expect(await res.json()).toEqual({ status: "ok", mode: "mock", store: "local" });
+    expect(await res.json()).toEqual({
+      status: "ok",
+      mode: "mock",
+      store: "local",
+      text: "mock",
+      speech: "mock",
+    });
   });
 
   it("GET /media with a bad token is 404", async () => {

@@ -11,6 +11,7 @@ import { join } from "node:path";
 import type { Config, Logger, Services } from "../contracts.js";
 import { makeBedrockModel } from "./bedrock.js";
 import { makeMockModel } from "./mock/model.js";
+import { makeOpenAiCompatModel, readKeyFile } from "./openaiCompat.js";
 import { makePollyTts } from "./polly.js";
 import { makeMockTts } from "./mock/tts.js";
 import { makeStorage } from "./storage.js";
@@ -23,9 +24,18 @@ export { resolveMediaToken } from "./storage.js";
 
 export function makeServices(config: Config, log: Logger): Services {
   const model =
-    config.modelsMode === "aws"
-      ? makeBedrockModel(config.bedrock.scriptModelId, config.region, log)
-      : makeMockModel(log);
+    config.modelsMode === "mock"
+      ? makeMockModel(log)
+      : config.text.provider === "openai"
+        ? makeOpenAiCompatModel(
+            {
+              baseUrl: config.text.baseUrl,
+              model: config.text.model,
+              apiKey: readKeyFile(config.text.keyFile),
+            },
+            log,
+          )
+        : makeBedrockModel(config.bedrock.scriptModelId, config.region, log);
 
   const tts = config.modelsMode === "aws" ? makePollyTts(config.region, log) : makeMockTts();
 
