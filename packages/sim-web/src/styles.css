@@ -454,6 +454,10 @@ a {
   flex: 1;
   min-width: 200px;
 }
+.field.source-input {
+  flex: 1 1 320px;
+  min-width: 220px;
+}
 .btn {
   background: var(--panel-2);
   border: 1px solid var(--edge);

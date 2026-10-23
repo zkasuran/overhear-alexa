@@ -92,8 +92,8 @@ export class Session {
     const producer = "push-to-talk" as const;
     const label =
       this.#mode.mode === "mock"
-        ? "Mock models, recorded samples. Push-to-talk producer (the Sonic voice needs AWS)."
-        : "Live models. Push-to-talk producer (the Sonic voice needs AWS).";
+        ? "Mock mode: recorded sample audio, no keys needed."
+        : "Live mode: Amazon Polly voices, real scripts.";
     this.#send({
       type: "status",
       mode: this.#mode.mode,

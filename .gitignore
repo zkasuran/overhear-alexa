@@ -30,3 +30,6 @@ packages/sim-web/dist/
 
 # spike scratch (lane-root, not product)
 spike/
+
+# launcher state
+/.run/

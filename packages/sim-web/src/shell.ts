@@ -56,13 +56,13 @@ function menu(label: string, items: readonly MenuItem[]): HTMLElement {
 
 function aboutSection(): HTMLElement {
   const steps = [
-    "Plan turns a source into an outline in one server round trip.",
+    "Type any topic, paste a link or some text, then plan: the server returns an outline in one call.",
     "Play renders the episode; parts stream back and play back to back with no gap.",
     "Pause, skip and time left resolve on the host with no model; a question or go deeper calls a tool.",
   ];
   const real = [
     "Live mode voices every line with Amazon Polly. The default mock mode plays a labelled recorded sample.",
-    "The producer uses a push-to-talk fallback; the Nova Sonic voice needs AWS and is not active here.",
+    "Requests are typed or tapped here. On a real Echo, the Overhear Studio skill takes them by voice.",
     "Planning, rendering, questions and navigation all run against the live server over MCP.",
   ];
   const commands = "plan, play, pause, resume, skip, back, go-deeper, ask, time-left, utterance";

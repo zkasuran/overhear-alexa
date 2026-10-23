@@ -11,11 +11,7 @@
             "Alexa, ask overhear studio to brief me on the James Webb telescope",
             "Alexa, tell overhear studio to go deeper"
           ],
-          "keywords": [
-            "podcast",
-            "audio",
-            "learning"
-          ]
+          "keywords": ["podcast", "audio", "learning"]
         },
         "en-IN": {
           "name": "Overhear Studio",
@@ -26,11 +22,7 @@
             "Alexa, ask overhear studio to brief me on the James Webb telescope",
             "Alexa, tell overhear studio to go deeper"
           ],
-          "keywords": [
-            "podcast",
-            "audio",
-            "learning"
-          ]
+          "keywords": ["podcast", "audio", "learning"]
         },
         "en-GB": {
           "name": "Overhear Studio",
@@ -41,11 +33,7 @@
             "Alexa, ask overhear studio to brief me on the James Webb telescope",
             "Alexa, tell overhear studio to go deeper"
           ],
-          "keywords": [
-            "podcast",
-            "audio",
-            "learning"
-          ]
+          "keywords": ["podcast", "audio", "learning"]
         },
         "en-AU": {
           "name": "Overhear Studio",
@@ -56,11 +44,7 @@
             "Alexa, ask overhear studio to brief me on the James Webb telescope",
             "Alexa, tell overhear studio to go deeper"
           ],
-          "keywords": [
-            "podcast",
-            "audio",
-            "learning"
-          ]
+          "keywords": ["podcast", "audio", "learning"]
         },
         "en-CA": {
           "name": "Overhear Studio",
@@ -71,23 +55,13 @@
             "Alexa, ask overhear studio to brief me on the James Webb telescope",
             "Alexa, tell overhear studio to go deeper"
           ],
-          "keywords": [
-            "podcast",
-            "audio",
-            "learning"
-          ]
+          "keywords": ["podcast", "audio", "learning"]
         }
       },
       "isAvailableWorldwide": false,
       "testingInstructions": "Development only.",
       "category": "EDUCATION_AND_REFERENCE",
-      "distributionCountries": [
-        "US",
-        "IN",
-        "GB",
-        "AU",
-        "CA"
-      ]
+      "distributionCountries": ["US", "IN", "GB", "AU", "CA"]
     },
     "apis": {
       "custom": {

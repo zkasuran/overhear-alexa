@@ -76,7 +76,7 @@ const SESSION = [
     store: "local",
     producer: "push-to-talk",
     serverOk: true,
-    label: "Mock models, recorded samples. Push-to-talk producer (the Sonic voice needs AWS).",
+    label: "Mock mode: recorded sample audio, no keys needed.",
   },
   { at: 0, type: "ring", state: "idle" },
   {
