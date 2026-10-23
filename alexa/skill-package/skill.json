@@ -1,0 +1,63 @@
+{
+  "manifest": {
+    "publishingInformation": {
+      "locales": {
+        "en-US": {
+          "name": "Overhear Studio",
+          "summary": "The podcast you can interrupt.",
+          "description": "Ask for any topic and two hosts talk it through. Cut in to go deeper, skip, or ask what they meant. Development build for the Amazon Developer Hackathon.",
+          "examplePhrases": [
+            "Alexa, open overhear studio",
+            "Alexa, ask overhear studio to brief me on the James Webb telescope",
+            "Alexa, tell overhear studio to go deeper"
+          ],
+          "keywords": ["podcast", "audio", "learning"]
+        },
+        "en-IN": {
+          "name": "Overhear Studio",
+          "summary": "The podcast you can interrupt.",
+          "description": "Ask for any topic and two hosts talk it through. Cut in to go deeper, skip, or ask what they meant. Development build for the Amazon Developer Hackathon.",
+          "examplePhrases": [
+            "Alexa, open overhear studio",
+            "Alexa, ask overhear studio to brief me on the James Webb telescope",
+            "Alexa, tell overhear studio to go deeper"
+          ],
+          "keywords": ["podcast", "audio", "learning"]
+        }
+      },
+      "isAvailableWorldwide": false,
+      "testingInstructions": "Development only.",
+      "category": "EDUCATION_AND_REFERENCE",
+      "distributionCountries": ["US", "IN"]
+    },
+    "apis": {
+      "custom": {
+        "endpoint": {
+          "uri": "__ENDPOINT__",
+          "sslCertificateType": "Wildcard"
+        },
+        "interfaces": [
+          {
+            "type": "AUDIO_PLAYER"
+          }
+        ]
+      }
+    },
+    "manifestVersion": "1.0",
+    "privacyAndCompliance": {
+      "allowsPurchases": false,
+      "usesPersonalInfo": false,
+      "isChildDirected": false,
+      "isExportCompliant": true,
+      "containsAds": false,
+      "locales": {
+        "en-US": {
+          "privacyPolicyUrl": "https://github.com/zkasuran/overhear-alexa/blob/main/SECURITY.md"
+        },
+        "en-IN": {
+          "privacyPolicyUrl": "https://github.com/zkasuran/overhear-alexa/blob/main/SECURITY.md"
+        }
+      }
+    }
+  }
+}

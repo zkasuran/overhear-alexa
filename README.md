@@ -9,6 +9,7 @@
 <p align="center">
   <a href="#try-it-in-60-seconds">Try it</a> ·
   <a href="#how-it-works">How it works</a> ·
+  <a href="#on-a-real-echo">On a real Echo</a> ·
   <a href="#tools-resources-and-prompts">Tools</a> ·
   <a href="#mcp-conformance">Conformance</a> ·
   <a href="docs/ARCHITECTURE.md">Architecture</a> ·
@@ -135,12 +136,12 @@ Four prompts, one per format, so a plain MCP client finds the product without re
 
 The device is the only simulated piece. Everything it calls is the real server. The mock twins are labelled in the product.
 
-| Real                                                                                                  | Simulated or mocked, labelled                                                                                                 |
-| ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| The MCP server and its Streamable HTTP transport, protocol 2025-11-25                                 | The Alexa+ device. The web client and the host stand in for the Alexa+ surface, so the whole flow runs with no Alexa hardware |
-| The seven tools, the four resources, the four prompts and the task lifecycle                          | Mock models: `OVERHEAR_MODELS=mock` swaps in deterministic text and voice twins, labelled "recorded sample" in the UI         |
-| The SQLite durable stores, the ffmpeg audio mixer and the SSRF-guarded source fetcher                 | The mock audio is a real short MP3 sized to the text, not silence, so a judge hears the product                               |
-| In AWS mode: Amazon Bedrock (Nova), Amazon Polly, Amazon S3 and Amazon DynamoDB, each called for real | `GET /health` and the startup banner print the models mode and the store mode, so the run mode is never ambiguous             |
+| Real                                                                                                  | Simulated or mocked, labelled                                                                                                                                                                |
+| ----------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| The MCP server and its Streamable HTTP transport, protocol 2025-11-25                                 | The Alexa+ device. The web client and the host stand in for the Alexa+ surface; the same server also runs on a real Echo through a development skill (see [On a real Echo](#on-a-real-echo)) |
+| The seven tools, the four resources, the four prompts and the task lifecycle                          | Mock models: `OVERHEAR_MODELS=mock` swaps in deterministic text and voice twins, labelled "recorded sample" in the UI                                                                        |
+| The SQLite durable stores, the ffmpeg audio mixer and the SSRF-guarded source fetcher                 | The mock audio is a real short MP3 sized to the text, not silence, so a judge hears the product                                                                                              |
+| In AWS mode: Amazon Bedrock (Nova), Amazon Polly, Amazon S3 and Amazon DynamoDB, each called for real | `GET /health` and the startup banner print the models mode and the store mode, so the run mode is never ambiguous                                                                            |
 
 ## MCP conformance
 
@@ -225,6 +226,28 @@ AWS_REGION=us-west-2 OVERHEAR_MODELS=aws OVERHEAR_STORE=local \
 ```
 
 `GET /health` reports which text model and which speech engine are live, and the simulator badge switches from "mock" to "live". The recorded demo runs the second command: Amazon Polly voices every line, and `deepseek-ai/deepseek-v4.1-flash-1017` on GMI Cloud writes the scripts, because Bedrock model invocation is still pending account verification on the demo account. A full live session (plan, render, find, ask) passed `scripts/e2e-session.mjs` in 21 s. The AWS calls, table design and a least-privilege IAM policy are in [docs/AWS.md](docs/AWS.md).
+
+## On a real Echo
+
+The same server runs on a real Echo through a development Alexa skill, **Overhear Studio**, with the AudioPlayer interface. The skill endpoint lives in `packages/sim-host/src/alexa/`: it maps each spoken request to an MCP tool, streams each part to the Echo as Amazon Polly audio, and queues the next part (including a deeper part `expand_part` just inserted) when the current one nearly ends. Every request is checked the way the Alexa Skills Kit requires for a self-hosted endpoint: certificate URL, certificate chain and name, RSA SHA-256 signature over the body, a 150 s timestamp window and the skill id.
+
+| Say                                                                          | What happens                                                               |
+| ---------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| "Alexa, open overhear studio", then "brief me on the James Webb telescope"   | `plan_episode`, then `render_episode` starts as a task                     |
+| "play"                                                                       | the first part streams as soon as it is voiced                             |
+| "Alexa, tell overhear studio to go deeper"                                   | `expand_part` adds a deeper part, which plays right after this one         |
+| "Alexa, ask overhear studio what did they say about the mirror"              | `ask` answers from the source and the transcript, then the episode resumes |
+| "Alexa, ask overhear studio how long is left", "Alexa, next", "Alexa, pause" | answered on the endpoint, no model call                                    |
+
+To run it on your own Echo: start the server in live mode, put an https tunnel in front of port 8790 (for example `cloudflared tunnel --url http://127.0.0.1:8790`), run `ask configure` once, then:
+
+```bash
+alexa/deploy.sh https://<your-tunnel>                     # creates the development skill, en-US and en-IN
+ALEXA_PUBLIC_BASE=https://<your-tunnel> ALEXA_SKILL_ID=$(cat alexa/.skill-id) \
+  node packages/sim-host/dist/alexa/main.js
+```
+
+A development skill works on every Echo signed in to the developer account, with no certification. Alexa allows a skill about 8 seconds per answer, so while the first part is still being voiced the skill says so and you say "play" again; a slow answer to a question is kept and returned when you ask it again.
 
 ## Command line
 
